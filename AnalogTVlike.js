@@ -78,7 +78,9 @@ $(function()
               $('.showImage').attr("src", cvs.toDataURL());
           }
       }
+      
       // 読み込み画像データに表示用画像データを渡す
       img.src = $('.showImage').attr("src");
     });
+    
 });
