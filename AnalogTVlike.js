@@ -1,29 +1,33 @@
-function previewFile(file) {
-    // プレビュー画像を追加する要素
-    const preview = document.getElementById('preview');
-  
-    // FileReaderオブジェクトを作成
-    const reader = new FileReader();
-  
-    // ファイルが読み込まれたときに実行する
-    reader.onload = function (e) {
-      const imageUrl = e.target.result; // 画像のURLはevent.target.resultで呼び出せる
-      const img = document.createElement("img"); // img要素を作成
-      img.src = imageUrl; // 画像のURLをimg要素にセット
-      preview.appendChild(img); // #previewの中に追加
-    }
-  
-    // いざファイルを読み込む
-    reader.readAsDataURL(file);
-  }
-  
-  
-  // <input>でファイルが選択されたときの処理
-  const fileInput = document.getElementById('example');
-  const handleFileSelect = () => {
-    const files = fileInput.files;
-    for (let i = 0; i < files.length; i++) {
-      previewFile(files[i]);
-    }
-  }
-  fileInput.addEventListener('change', handleFileSelect);
+
+// ロード完了後
+$(function()
+{
+    // inputタグの変更イベント
+    $('.inputFile').on("change", function()
+    {
+        // 選択されたファイル情報
+        file = this.files[0];
+        // 対応ファイルフォーマットリスト
+        permit_type = ["image/jpeg", "image/png", "image/gif"];
+        // 対応ファイルではない場合
+        if(file && permit_type.indexOf(file.type) == -1)
+        {
+            // アラートを表示
+            alert("未対応のファイルです。");
+            // ファイル名をクリアする
+            $(this).val("");
+            // 処理終了
+            return ;
+        }
+        // ファイル読み込みオブジェクト
+        reader = new FileReader();
+        // ファイルのロードが完了した場合のコールバック
+        reader.onload = function()
+        {
+            // 表示用画像に設定
+            $('.showImage').attr("src", reader.result);
+        };
+        // ファイルのロード
+        reader.readAsDataURL(file);
+    });
+});
